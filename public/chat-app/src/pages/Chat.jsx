@@ -2,9 +2,9 @@ import React from 'react'
 
 function Chat() {
   return (
-    <div>
-      Chat
-    </div>
+    <h1 className="bg-amber-500">
+      Chat app
+    </h1>
   )
 }
 
