@@ -7,8 +7,18 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import { loginRoute } from '../utils/APIRoutes'
+import { IoEyeSharp } from "react-icons/io5";
+import { IoEyeOffSharp } from "react-icons/io5";
 
 function Login() {
+  const [isShowPassword, setIsShowPassword] = useState(false);
+
+  // Hàm xử lý tính năng hide/unhide password 
+  const handleTogglePassword = () => {
+    setIsShowPassword(!isShowPassword);
+  };
+
+
   // useNavigate là một hook được cung cấp bởi thư viện react-router-dom để lấy hàm navigate để 
   // thực hiện điều hướng trong ứng dụng React. Khi bạn muốn chuyển đến một trang khác,
   // có thể gọi navigate('/path') để thực hiện điều hướng đến đường dẫn mong muốn.
@@ -64,11 +74,11 @@ function Login() {
   const handleValidation = () => {
     const { password, username } = values
     if (password === "") {
-      toast.error("Email and password is required", toastOptions)
+      toast.error("Tài khoản và mật khẩu phải được nhập!", toastOptions)
       return false
     }
     else if (username.length === "") {
-      toast.error("Email and password is required", toastOptions)
+      toast.error("Tài khoản và mật khẩu phải được nhập!", toastOptions)
       return false
     }
     return true
@@ -92,13 +102,24 @@ function Login() {
             <h1>Snappy</h1>
           </div>
 
-          <input type="text" placeholder='Username' name='username' onChange={(e) => handleChange(e)} min="3"/>
+          <input type="text" placeholder='Tên tài khoản' name='username' onChange={(e) => handleChange(e)} min="3"/>
 
-          <input type="password" placeholder='Password' name='password' onChange={(e) => handleChange(e)} />
+          <div className='flex relative  items-center'>
+            <input type={isShowPassword ? 'text' : 'password'} placeholder='Mật khẩu' name='password' onChange={(e) => handleChange(e)} />
 
-          <button type='submit'>Login</button>
+            <button
+              type="button"
+              onClick={handleTogglePassword}
+              className="text-xl absolute inset-y-0 right-3 text-white"
+              aria-label={isShowPassword ? 'Hide password' : 'Show password'}
+          >
+            {isShowPassword ? <IoEyeSharp /> : <IoEyeOffSharp />}
+            </button>
+          </div>
+          
+          <button className='login-button' type='submit'>Đăng Nhập</button>
 
-          <span>Don't have a account ? <Link to="/register">Register</Link></span>
+          <span>Chưa có tài khoản ? <Link to="/register">Đăng Kí</Link></span>
 
         </form>
       </FormContainer>
@@ -124,7 +145,7 @@ const FormContainer = styled.div`
         gap: 1rem;
         justify-content: center;
         img {
-            height: 5rem;
+            height: 2rem;
         }
         h1 {
             color: white;
@@ -155,7 +176,7 @@ const FormContainer = styled.div`
         }
     }
 
-    button {
+    .login-button {
         background-color: #4e0eff;
         color: white;
         padding: 1rem 2rem;

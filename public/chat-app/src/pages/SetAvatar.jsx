@@ -24,10 +24,20 @@ export default function SetAvatar() {
         theme: 'dark',
     }
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     if (!localStorage.getItem('chat-app-user')) {
+    //         navigate('/login')
+    //     }
+    // }, [])
+
+    const getChatAppUser = async () =>{
         if (!localStorage.getItem('chat-app-user')) {
             navigate('/login')
         }
+    }
+
+    useEffect(() => {
+        getChatAppUser()
     }, [])
 
     const setProfilePicture = async () => {
@@ -36,7 +46,7 @@ export default function SetAvatar() {
         }
         else {
             const user = await JSON.parse(localStorage.getItem("chat-app-user"))
-            const { data } = await axios.post(`${SetAvatarRoute}/${user._id}`, {
+            let { data } = await axios.post(`${SetAvatarRoute}/${user._id}`, {
                 image: avatars[selectedAvatar],
             })
 
@@ -113,7 +123,7 @@ export default function SetAvatar() {
                 </Container> : (
                     <Container>
                         <div className="title-container">
-                            <h1>Pick an avatar for your profile picture</h1>
+                            <h1>Chọn avatar nha</h1>
                         </div>
 
                         <div className="avatars">
@@ -128,7 +138,7 @@ export default function SetAvatar() {
                             }
                         </div>
 
-                        <button className='submit-btn' onClick={setProfilePicture}>Set as profile picture</button>
+                        <button className='submit-btn' onClick={setProfilePicture}>Đặt làm avatar</button>
                     </Container>
                 )
             }

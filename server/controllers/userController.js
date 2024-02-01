@@ -9,14 +9,21 @@ module.exports.register = async (req, res, next) => {
         const usernameCheck = await User.findOne({ username })
         const emailCheck = await User.findOne({ email })
 
+        const validPassword = password.match(
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/);
+    
+        if(!validPassword){
+            return res.json({ msg: "Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái, 1 số và 1 ký tự đặc biệt", status: false })
+        }
+
         //Sử dụng bcrypt để mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu.
         const hashedPassword = await brcypt.hash(password, 10)
 
         if (usernameCheck) {
-            return res.json({ msg: "Username already used", status: false })
+            return res.json({ msg: "Tên tài khoản đã được sử dụng!", status: false })
         }
         if (emailCheck) {
-            return res.json({ msg: "Email already used", status: false })
+            return res.json({ msg: "Email đã được sử dụng!", status: false })
         }
 
         const user = await User.create({
@@ -43,10 +50,10 @@ module.exports.login = async (req, res, next) => {
         const hashedPassword = await brcypt.hash(password, 10)
 
         if (!user) {
-            return res.json({ msg: "Incorrect username or password", status: false })
+            return res.json({ msg: "Tài khoản hoặc mật khẩu không đúng!", status: false })
         }
         if (!isPasswordValid) {
-            return res.json({ msg: "Incorrect username or password", status: false })
+            return res.json({ msg: "Tài khoản hoặc mật khẩu không đúng!", status: false })
         }
         delete user.password
         return res.json({ status: true, user })
@@ -58,7 +65,7 @@ module.exports.login = async (req, res, next) => {
 module.exports.setAvatar = async (req, res, next) => {
     try {
         const userId = req.params.id
-        const avatarImage = req.body.image
+        let avatarImage = req.body.image
         const userData = await User.findByIdAndUpdate(userId, {
             isAvatarImageSet: true,
             avatarImage,
@@ -66,5 +73,19 @@ module.exports.setAvatar = async (req, res, next) => {
         return res.json({isSet: userData.isAvatarImageSet, image: userData.avatarImage, })
     } catch (ex) {
         next(ex)
+    }
+}
+
+module.exports.getAllUsers = async (req, res, next) => {
+    try{
+        const users = await User.find({_id:{$ne:req.params.id }}).select([
+            "email",
+            "username",
+            "avatarImage",
+            "_id"
+        ]);
+        return res.json(users);
+    }catch(ex){
+        next(ex);
     }
 }

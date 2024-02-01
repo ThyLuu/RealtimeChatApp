@@ -7,8 +7,23 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import { registerRoute } from '../utils/APIRoutes'
+import { IoEyeSharp } from "react-icons/io5";
+import { IoEyeOffSharp } from "react-icons/io5";
 
 function Register() {
+    const [isShowPassword, setIsShowPassword] = useState(false);
+
+    const [isConfirmPassword, setIsConfirmPassword] = useState(false);
+
+    const handleTogglePassword = () => {
+        setIsShowPassword(!isShowPassword);
+      };
+    
+      const handleToggleConfirmPassword = () =>{
+        setIsConfirmPassword(!isConfirmPassword)
+      }
+
+
     // useNavigate là một hook được cung cấp bởi thư viện react-router-dom để lấy hàm navigate để 
     // thực hiện điều hướng trong ứng dụng React. Khi bạn muốn chuyển đến một trang khác,
     // có thể gọi navigate('/path') để thực hiện điều hướng đến đường dẫn mong muốn.
@@ -67,19 +82,19 @@ function Register() {
     const handleValidation = () => {
         const { password, confirmPassword, email, username } = values
         if (password !== confirmPassword) {
-            toast.error("Password and Confirm password must be the same", toastOptions)
+            toast.error("Mật khẩu không khớp!", toastOptions)
             return false
         }
         else if (username.length < 3) {
-            toast.error("Username must be greater than 3 characters", toastOptions)
+            toast.error("Tên tài khoản cần tối thiểu 3 kí tự!", toastOptions)
             return false
         }
-        else if (password.length < 8) {
-            toast.error("Password must be greater than 8 characters", toastOptions)
-            return false
-        }
+        // else if (password.length < 8) {
+        //     toast.error("Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái, 1 số và 1 ký tự đặc biệt", toastOptions)
+        //     return false
+        // }
         else if (email === "") {
-            toast.error("Email is required", toastOptions)
+            toast.error("Email không được để trống!", toastOptions)
             return false
         }
         return true
@@ -100,20 +115,42 @@ function Register() {
                 <form onSubmit={(event) => handleSubmit(event)}>
                     <div className="brand">
                         <img src={Logo} alt="Logo" />
-                        <h1>Snappy</h1>
+                        <h1 className='text-white uppercase'>Snappy</h1>
                     </div>
 
-                    <input type="text" placeholder='Username' name='username' onChange={(e) => handleChange(e)} />
+                    <input type="text" placeholder='Tên tài khoản' name='username' onChange={(e) => handleChange(e)} />
 
                     <input type="email" placeholder='Email' name='email' onChange={(e) => handleChange(e)} />
 
-                    <input type="password" placeholder='Password' name='password' onChange={(e) => handleChange(e)} />
+                    <div className='flex relative  items-center'>
+                        <input type={isShowPassword ? 'text' : 'password'} placeholder='Mật khẩu' name='password' onChange={(e) => handleChange(e)} />
 
-                    <input type="password" placeholder='Confirm Password' name='confirmPassword' onChange={(e) => handleChange(e)} />
+                        <button
+                        type="button"
+                        onClick={handleTogglePassword}
+                        className="text-xl absolute inset-y-0 right-3 text-white"
+                        aria-label={isShowPassword ? 'Hide password' : 'Show password'}
+                        >
+                        {isShowPassword ? <IoEyeSharp /> : <IoEyeOffSharp />}
+                        </button>
+                    </div>
 
-                    <button type='submit'>Register</button>
+                    <div className='flex relative  items-center'>
+                        <input type={isConfirmPassword ? 'text' : 'password'} placeholder='Xác nhận mật khẩu' name='confirmPassword' onChange={(e) => handleChange(e)} />
 
-                    <span>Already have a account ? <Link to="/login">Login</Link></span>
+                        <button
+                        type="button"
+                        onClick={handleToggleConfirmPassword}
+                        className="text-xl absolute inset-y-0 right-3 text-white"
+                        aria-label={isConfirmPassword ? 'Hide password' : 'Show password'}
+                        >
+                        {isConfirmPassword ? <IoEyeSharp /> : <IoEyeOffSharp />}
+                        </button>
+                    </div>
+
+                    <button className='register-button' style={{backgroundColor:'#4e0eff'}} type='submit'>Đăng Kí</button>
+
+                    <span>Đã có tài khoản ? <Link to="/login">Đăng Nhập</Link></span>
 
                 </form>
             </FormContainer>
@@ -129,7 +166,7 @@ const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1rem;
+    gap: 15px;
     align-items: center;
     background-color: #131324;
 
@@ -139,7 +176,7 @@ const FormContainer = styled.div`
         gap: 1rem;
         justify-content: center;
         img {
-            height: 5rem;
+            height: 2rem;
         }
         h1 {
             color: white;
@@ -150,15 +187,15 @@ const FormContainer = styled.div`
     form {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 30px;
         background-color: #00000076;
         border-radius: 2rem;
-        padding: 3rem 5rem;
+        padding: 2rem 5rem;
     }
 
     input {
         background-color: transparent;
-        padding: 1rem;
+        padding: 20px;
         border: 0.1rem solid #4e0eff;
         border-radius: 0.4rem;
         color: white;
@@ -170,10 +207,10 @@ const FormContainer = styled.div`
         }
     }
 
-    button {
+    .register-button {
         background-color: #4e0eff;
         color: white;
-        padding: 1rem 2rem;
+        padding: 15px;
         border: none;
         font-weight: bold;
         cursor: pointer;
