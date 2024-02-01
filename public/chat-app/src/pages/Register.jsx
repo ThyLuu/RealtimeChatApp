@@ -90,7 +90,7 @@ function Register() {
             return false
         }
         else if (password.length < 8) {
-            toast.error("Mật khẩu cần tối thiểu 8 kí tự!", toastOptions)
+            toast.error("Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái, 1 số và 1 ký tự đặc biệt", toastOptions)
             return false
         }
         else if (email === "") {

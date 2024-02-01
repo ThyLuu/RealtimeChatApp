@@ -9,6 +9,13 @@ module.exports.register = async (req, res, next) => {
         const usernameCheck = await User.findOne({ username })
         const emailCheck = await User.findOne({ email })
 
+        const validPassword = password.match(
+            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/);
+    
+        if(!validPassword){
+            return res.json({ msg: "Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái, 1 số và 1 ký tự đặc biệt", status: false })
+        }
+
         //Sử dụng bcrypt để mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu.
         const hashedPassword = await brcypt.hash(password, 10)
 
@@ -58,7 +65,7 @@ module.exports.login = async (req, res, next) => {
 module.exports.setAvatar = async (req, res, next) => {
     try {
         const userId = req.params.id
-        const avatarImage = req.body.image
+        let avatarImage = req.body.image
         const userData = await User.findByIdAndUpdate(userId, {
             isAvatarImageSet: true,
             avatarImage,
