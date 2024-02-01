@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { allUsersRoute } from '../utils/APIRoutes';
 import Contacts from '../components/Contacts'
 import Welcome from '../components/Welcome';
+import ChatContainer from '../components/ChatContainer';
 
 function Chat() {
   const [contacts,setContacts] = useState([]);
@@ -12,13 +13,16 @@ function Chat() {
 
   const [currentChat,setCurrentChat] = useState(undefined); 
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const navigate = useNavigate();
  
   const fetchUser = async () => {
     if (!localStorage.getItem('chat-app-user')) {
       navigate('/login');
     } else {
-      setCurrentUser(await JSON.parse(localStorage.getItem("chat-app-user")))
+      setCurrentUser(await JSON.parse(localStorage.getItem("chat-app-user")));
+      setIsLoaded(true);
     }
 
   }
@@ -54,7 +58,7 @@ function Chat() {
     ">
       <div 
         className="
-          bg-gradient-to-r from-slate-600 to-slate-800 h-5/6 w-5/6 rounded-lg
+          bg-gradient-to-r from-slate-400 to-slate-600 h-5/6 w-5/6
           "
           style={{
             display:'grid',
@@ -65,7 +69,16 @@ function Chat() {
               currentUser={currentUser}
               changeChat={handleChatChange}/>
 
-            <Welcome currentUser={currentUser}/>
+              { 
+                isLoaded && currentChat === undefined 
+                  ? (<Welcome currentUser={currentUser}/>) 
+                  : (
+                  
+                  <ChatContainer currentChat={currentChat}/>
+                  ) 
+              }
+
+            
         </div>
 
     </div>

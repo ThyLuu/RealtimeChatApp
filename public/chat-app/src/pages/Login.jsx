@@ -64,11 +64,11 @@ function Login() {
   const handleValidation = () => {
     const { password, username } = values
     if (password === "") {
-      toast.error("Email and password is required", toastOptions)
+      toast.error("Tài khoản và mật khẩu phải được nhập!", toastOptions)
       return false
     }
     else if (username.length === "") {
-      toast.error("Email and password is required", toastOptions)
+      toast.error("Tài khoản và mật khẩu phải được nhập!", toastOptions)
       return false
     }
     return true

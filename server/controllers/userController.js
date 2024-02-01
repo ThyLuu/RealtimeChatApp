@@ -13,10 +13,10 @@ module.exports.register = async (req, res, next) => {
         const hashedPassword = await brcypt.hash(password, 10)
 
         if (usernameCheck) {
-            return res.json({ msg: "Username already used", status: false })
+            return res.json({ msg: "Tên tài khoản đã được sử dụng!", status: false })
         }
         if (emailCheck) {
-            return res.json({ msg: "Email already used", status: false })
+            return res.json({ msg: "Email đã được sử dụng!", status: false })
         }
 
         const user = await User.create({
@@ -43,10 +43,10 @@ module.exports.login = async (req, res, next) => {
         const hashedPassword = await brcypt.hash(password, 10)
 
         if (!user) {
-            return res.json({ msg: "Incorrect username or password", status: false })
+            return res.json({ msg: "Tài khoản hoặc mật khẩu không đúng!", status: false })
         }
         if (!isPasswordValid) {
-            return res.json({ msg: "Incorrect username or password", status: false })
+            return res.json({ msg: "Tài khoản hoặc mật khẩu không đúng!", status: false })
         }
         delete user.password
         return res.json({ status: true, user })

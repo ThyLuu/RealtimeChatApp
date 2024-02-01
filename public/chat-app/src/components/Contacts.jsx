@@ -25,7 +25,7 @@ export default function Contacts ({contacts,currentUser,changeChat}) {
     <>
       {
         currentUserImage && currentUserName && (
-          <div className=" brands bg-slate-600 rounded-lg"
+          <div className=" brands bg-slate-600"
           style={{
             display:'grid',
             gridTemplateRows:'10% 75% 15%',

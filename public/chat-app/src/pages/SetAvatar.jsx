@@ -24,10 +24,20 @@ export default function SetAvatar() {
         theme: 'dark',
     }
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     if (!localStorage.getItem('chat-app-user')) {
+    //         navigate('/login')
+    //     }
+    // }, [])
+
+    const getChatAppUser = async () =>{
         if (!localStorage.getItem('chat-app-user')) {
             navigate('/login')
         }
+    }
+
+    useEffect(() => {
+        getChatAppUser()
     }, [])
 
     const setProfilePicture = async () => {
