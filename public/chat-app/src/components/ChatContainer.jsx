@@ -7,9 +7,9 @@ export default function ChatContainer({currentChat}) {
     <>
     {
         currentChat && (
-        <div className='pt-2'> 
-        <div className='chat-header flex justify-between items-center px-8'>
-            <div className='user-details flex items-center gap-4'>
+        <div className=''> 
+        <div className='chat-header flex justify-between items-center px-8 bg-gradient-to-r from-slate-600 to-slate-800 py-2 '>
+            <div className='user-details flex items-center gap-4 '>
                 <div className='avatar'>
                     <img src={`data:image/svg+xml;base64,${currentChat.avatarImage}`} alt="avatar" style={{height:'3rem'}}/>
                 </div>

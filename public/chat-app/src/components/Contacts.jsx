@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import Logo from '../assets/logo.svg'
 
-
 export default function Contacts ({contacts,currentUser,changeChat}) {
   const [currentUserName,setCurrentUserName] = useState(undefined);
 
@@ -25,19 +24,19 @@ export default function Contacts ({contacts,currentUser,changeChat}) {
     <>
       {
         currentUserImage && currentUserName && (
-          <div className=" brands bg-slate-600"
+          <div className=" brands bg-gradient-to-r from-slate-600 to-slate-900"
           style={{
             display:'grid',
-            gridTemplateRows:'10% 75% 15%',
-            overflow:'hidden'
+            gridTemplateRows:'13% 72% 15%',
+            overflow:'hidden',
+            
           }}>
-            <div className="flex items-center gap-2 justify-center">
-              <img src={Logo} alt="logo" className='h-8' />
-              <h3 className='text-white uppercase'>Snappy</h3>
+            <div className='flex items-center gap-2 justify-center py-3'>
+                <img src={Logo} alt="logo" className='h-8' />
+                <h3 className='text-white uppercase'>Snappy</h3>
             </div>
 
-            <div className='contacts flex flex-col items-center overflow-auto gap-3 '
-            >
+            <div className='contacts flex flex-col items-center overflow-auto gap-3 mt-2 scrollbar-thin'>
               {
                 contacts.map((contact,index)=>{
                   return(
@@ -49,7 +48,7 @@ export default function Contacts ({contacts,currentUser,changeChat}) {
                       style={{
                         minHeight:'3rem',
                         width:'90%',
-                        padding:'0.4rem',
+                        padding:'0.1rem',
                         gap:'1rem',
                         alignItems:'center',
                         display:'flex',
@@ -70,12 +69,9 @@ export default function Contacts ({contacts,currentUser,changeChat}) {
                   )
                 })
               }
-
-              
-
             </div>
-            <div className="current-user bg-gray-800 flex justify-center items-center gap-8">
-            <div className="avatar ">
+            <div className="current-user bg-gray-800 flex justify-center items-center gap-8 py-3 ">
+            <div className="avatar cursor-pointer ">
                       <img src={`data:image/svg+xml;base64,${currentUserImage}`} alt="avatar" style={{
                         height:'3rem',
                         maxInlineSize:'100%'
