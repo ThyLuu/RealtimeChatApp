@@ -7,8 +7,18 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import { loginRoute } from '../utils/APIRoutes'
+import { IoEyeSharp } from "react-icons/io5";
+import { IoEyeOffSharp } from "react-icons/io5";
 
 function Login() {
+  const [isShowPassword, setIsShowPassword] = useState(false);
+
+  // Hàm xử lý tính năng hide/unhide password 
+  const handleTogglePassword = () => {
+    setIsShowPassword(!isShowPassword);
+  };
+
+
   // useNavigate là một hook được cung cấp bởi thư viện react-router-dom để lấy hàm navigate để 
   // thực hiện điều hướng trong ứng dụng React. Khi bạn muốn chuyển đến một trang khác,
   // có thể gọi navigate('/path') để thực hiện điều hướng đến đường dẫn mong muốn.
@@ -94,9 +104,22 @@ function Login() {
 
           <input type="text" placeholder='Username' name='username' onChange={(e) => handleChange(e)} min="3"/>
 
-          <input type="password" placeholder='Password' name='password' onChange={(e) => handleChange(e)} />
+          <div className='flex relative  items-center'>
+            <input type={isShowPassword ? 'text' : 'password'} placeholder='Password' name='password' onChange={(e) => handleChange(e)} />
 
-          <button type='submit'>Login</button>
+            <button
+              type="button"
+              onClick={handleTogglePassword}
+              className="text-xl absolute inset-y-0 right-3 text-white"
+              aria-label={isShowPassword ? 'Hide password' : 'Show password'}
+          >
+            {isShowPassword ? <IoEyeSharp /> : <IoEyeOffSharp />}
+            </button>
+          </div>
+
+          
+
+          <button className='login-button' type='submit'>Login</button>
 
           <span>Don't have a account ? <Link to="/register">Register</Link></span>
 
@@ -155,7 +178,7 @@ const FormContainer = styled.div`
         }
     }
 
-    button {
+    .login-button {
         background-color: #4e0eff;
         color: white;
         padding: 1rem 2rem;

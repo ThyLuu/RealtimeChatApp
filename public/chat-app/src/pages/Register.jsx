@@ -7,8 +7,23 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import { registerRoute } from '../utils/APIRoutes'
+import { IoEyeSharp } from "react-icons/io5";
+import { IoEyeOffSharp } from "react-icons/io5";
 
 function Register() {
+    const [isShowPassword, setIsShowPassword] = useState(false);
+
+    const [isConfirmPassword, setIsConfirmPassword] = useState(false);
+
+    const handleTogglePassword = () => {
+        setIsShowPassword(!isShowPassword);
+      };
+    
+      const handleToggleConfirmPassword = () =>{
+        setIsConfirmPassword(!isConfirmPassword)
+      }
+
+
     // useNavigate là một hook được cung cấp bởi thư viện react-router-dom để lấy hàm navigate để 
     // thực hiện điều hướng trong ứng dụng React. Khi bạn muốn chuyển đến một trang khác,
     // có thể gọi navigate('/path') để thực hiện điều hướng đến đường dẫn mong muốn.
@@ -107,11 +122,33 @@ function Register() {
 
                     <input type="email" placeholder='Email' name='email' onChange={(e) => handleChange(e)} />
 
-                    <input type="password" placeholder='Password' name='password' onChange={(e) => handleChange(e)} />
+                    <div className='flex relative  items-center'>
+                        <input type={isShowPassword ? 'text' : 'password'} placeholder='Password' name='password' onChange={(e) => handleChange(e)} />
 
-                    <input type="password" placeholder='Confirm Password' name='confirmPassword' onChange={(e) => handleChange(e)} />
+                        <button
+                        type="button"
+                        onClick={handleTogglePassword}
+                        className="text-xl absolute inset-y-0 right-3 text-white"
+                        aria-label={isShowPassword ? 'Hide password' : 'Show password'}
+                        >
+                        {isShowPassword ? <IoEyeSharp /> : <IoEyeOffSharp />}
+                        </button>
+                    </div>
 
-                    <button style={{backgroundColor:'#4e0eff'}} type='submit'>Register</button>
+                    <div className='flex relative  items-center'>
+                        <input type={isConfirmPassword ? 'text' : 'password'} placeholder='Confirm Password' name='confirmPassword' onChange={(e) => handleChange(e)} />
+
+                        <button
+                        type="button"
+                        onClick={handleToggleConfirmPassword}
+                        className="text-xl absolute inset-y-0 right-3 text-white"
+                        aria-label={isConfirmPassword ? 'Hide password' : 'Show password'}
+                        >
+                        {isConfirmPassword ? <IoEyeSharp /> : <IoEyeOffSharp />}
+                        </button>
+                    </div>
+
+                    <button className='register-button' style={{backgroundColor:'#4e0eff'}} type='submit'>Register</button>
 
                     <span>Already have a account ? <Link to="/login">Login</Link></span>
 
@@ -170,7 +207,7 @@ const FormContainer = styled.div`
         }
     }
 
-    button {
+    .register-button {
         background-color: #4e0eff;
         color: white;
         padding: 15px;
