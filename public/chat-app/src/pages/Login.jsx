@@ -124,7 +124,7 @@ const FormContainer = styled.div`
         gap: 1rem;
         justify-content: center;
         img {
-            height: 5rem;
+            height: 2rem;
         }
         h1 {
             color: white;

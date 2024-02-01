@@ -67,19 +67,19 @@ function Register() {
     const handleValidation = () => {
         const { password, confirmPassword, email, username } = values
         if (password !== confirmPassword) {
-            toast.error("Password and Confirm password must be the same", toastOptions)
+            toast.error("Mật khẩu không khớp!", toastOptions)
             return false
         }
         else if (username.length < 3) {
-            toast.error("Username must be greater than 3 characters", toastOptions)
+            toast.error("Tên tài khoản cần tối thiểu 3 kí tự!", toastOptions)
             return false
         }
         else if (password.length < 8) {
-            toast.error("Password must be greater than 8 characters", toastOptions)
+            toast.error("Mật khẩu cần tối thiểu 8 kí tự!", toastOptions)
             return false
         }
         else if (email === "") {
-            toast.error("Email is required", toastOptions)
+            toast.error("Email không được để trống!", toastOptions)
             return false
         }
         return true
@@ -100,7 +100,7 @@ function Register() {
                 <form onSubmit={(event) => handleSubmit(event)}>
                     <div className="brand">
                         <img src={Logo} alt="Logo" />
-                        <h1>Snappy</h1>
+                        <h1 className='text-white uppercase'>Snappy</h1>
                     </div>
 
                     <input type="text" placeholder='Username' name='username' onChange={(e) => handleChange(e)} />
@@ -111,7 +111,7 @@ function Register() {
 
                     <input type="password" placeholder='Confirm Password' name='confirmPassword' onChange={(e) => handleChange(e)} />
 
-                    <button type='submit'>Register</button>
+                    <button style={{backgroundColor:'#4e0eff'}} type='submit'>Register</button>
 
                     <span>Already have a account ? <Link to="/login">Login</Link></span>
 
@@ -129,7 +129,7 @@ const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1rem;
+    gap: 15px;
     align-items: center;
     background-color: #131324;
 
@@ -139,7 +139,7 @@ const FormContainer = styled.div`
         gap: 1rem;
         justify-content: center;
         img {
-            height: 5rem;
+            height: 2rem;
         }
         h1 {
             color: white;
@@ -150,15 +150,15 @@ const FormContainer = styled.div`
     form {
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 30px;
         background-color: #00000076;
         border-radius: 2rem;
-        padding: 3rem 5rem;
+        padding: 2rem 5rem;
     }
 
     input {
         background-color: transparent;
-        padding: 1rem;
+        padding: 20px;
         border: 0.1rem solid #4e0eff;
         border-radius: 0.4rem;
         color: white;
@@ -173,7 +173,7 @@ const FormContainer = styled.div`
     button {
         background-color: #4e0eff;
         color: white;
-        padding: 1rem 2rem;
+        padding: 15px;
         border: none;
         font-weight: bold;
         cursor: pointer;
