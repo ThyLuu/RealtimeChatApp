@@ -102,10 +102,10 @@ function Login() {
             <h1>Snappy</h1>
           </div>
 
-          <input type="text" placeholder='Username' name='username' onChange={(e) => handleChange(e)} min="3"/>
+          <input type="text" placeholder='Tên tài khoản' name='username' onChange={(e) => handleChange(e)} min="3"/>
 
           <div className='flex relative  items-center'>
-            <input type={isShowPassword ? 'text' : 'password'} placeholder='Password' name='password' onChange={(e) => handleChange(e)} />
+            <input type={isShowPassword ? 'text' : 'password'} placeholder='Mật khẩu' name='password' onChange={(e) => handleChange(e)} />
 
             <button
               type="button"
@@ -116,12 +116,10 @@ function Login() {
             {isShowPassword ? <IoEyeSharp /> : <IoEyeOffSharp />}
             </button>
           </div>
-
           
+          <button className='login-button' type='submit'>Đăng Nhập</button>
 
-          <button className='login-button' type='submit'>Login</button>
-
-          <span>Don't have a account ? <Link to="/register">Register</Link></span>
+          <span>Chưa có tài khoản ? <Link to="/register">Đăng Kí</Link></span>
 
         </form>
       </FormContainer>

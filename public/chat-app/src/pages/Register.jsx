@@ -89,10 +89,10 @@ function Register() {
             toast.error("Tên tài khoản cần tối thiểu 3 kí tự!", toastOptions)
             return false
         }
-        else if (password.length < 8) {
-            toast.error("Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái, 1 số và 1 ký tự đặc biệt", toastOptions)
-            return false
-        }
+        // else if (password.length < 8) {
+        //     toast.error("Mật khẩu cần tối thiểu 8 ký tự, ít nhất 1 chữ cái, 1 số và 1 ký tự đặc biệt", toastOptions)
+        //     return false
+        // }
         else if (email === "") {
             toast.error("Email không được để trống!", toastOptions)
             return false
@@ -118,12 +118,12 @@ function Register() {
                         <h1 className='text-white uppercase'>Snappy</h1>
                     </div>
 
-                    <input type="text" placeholder='Username' name='username' onChange={(e) => handleChange(e)} />
+                    <input type="text" placeholder='Tên tài khoản' name='username' onChange={(e) => handleChange(e)} />
 
                     <input type="email" placeholder='Email' name='email' onChange={(e) => handleChange(e)} />
 
                     <div className='flex relative  items-center'>
-                        <input type={isShowPassword ? 'text' : 'password'} placeholder='Password' name='password' onChange={(e) => handleChange(e)} />
+                        <input type={isShowPassword ? 'text' : 'password'} placeholder='Mật khẩu' name='password' onChange={(e) => handleChange(e)} />
 
                         <button
                         type="button"
@@ -136,7 +136,7 @@ function Register() {
                     </div>
 
                     <div className='flex relative  items-center'>
-                        <input type={isConfirmPassword ? 'text' : 'password'} placeholder='Confirm Password' name='confirmPassword' onChange={(e) => handleChange(e)} />
+                        <input type={isConfirmPassword ? 'text' : 'password'} placeholder='Xác nhận mật khẩu' name='confirmPassword' onChange={(e) => handleChange(e)} />
 
                         <button
                         type="button"
@@ -148,9 +148,9 @@ function Register() {
                         </button>
                     </div>
 
-                    <button className='register-button' style={{backgroundColor:'#4e0eff'}} type='submit'>Register</button>
+                    <button className='register-button' style={{backgroundColor:'#4e0eff'}} type='submit'>Đăng Kí</button>
 
-                    <span>Already have a account ? <Link to="/login">Login</Link></span>
+                    <span>Đã có tài khoản ? <Link to="/login">Đăng Nhập</Link></span>
 
                 </form>
             </FormContainer>

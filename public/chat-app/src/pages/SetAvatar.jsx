@@ -123,7 +123,7 @@ export default function SetAvatar() {
                 </Container> : (
                     <Container>
                         <div className="title-container">
-                            <h1>Pick an avatar for your profile picture</h1>
+                            <h1>Chọn avatar nha</h1>
                         </div>
 
                         <div className="avatars">
@@ -138,7 +138,7 @@ export default function SetAvatar() {
                             }
                         </div>
 
-                        <button className='submit-btn' onClick={setProfilePicture}>Set as profile picture</button>
+                        <button className='submit-btn' onClick={setProfilePicture}>Đặt làm avatar</button>
                     </Container>
                 )
             }
