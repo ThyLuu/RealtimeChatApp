@@ -9,6 +9,8 @@ const mongoose = require("mongoose")
 
 const userRoutes = require("./routes/userRoutes")
 
+const messageRoute = require("./routes/messagesRoute")
+const socket = require("socket.io")
 // Tạo một ứng dụng Express để xử lý các yêu cầu HTTP.
 const app  = express();
 
@@ -20,7 +22,8 @@ app.use(cors())
 // express.json(): Middleware để xử lý dữ liệu JSON từ các yêu cầu.
 app.use(express.json())
 
-app.use("/api/auth", userRoutes)
+app.use("/api/auth", userRoutes);
+app.use("/api/messages", messageRoute);
 
 // Sử dụng mongoose để kết nối đến cơ sở dữ liệu MongoDB, sử dụng các tùy chọn useNewUrlParser và useUnifiedTopology.
 mongoose.connect(process.env.MONGO_URL, {
@@ -37,3 +40,25 @@ mongoose.connect(process.env.MONGO_URL, {
 const server = app.listen(process.env.PORT, ()=> {
     console.log(`Server started on PORT : ${process.env.PORT}`)
 })
+
+const io = socket(server,{
+    cors:{
+        origin:"http://localhost:3000",
+        credentials:true,// Cho phép gửi cookie cùng với yêu cầu
+    },
+});
+
+global.onlineUsers =new Map();
+io.on("connection",(socket) =>{
+    global.chatSocket = socket;
+    socket.on("add-user",(userId)=>{
+        onlineUsers.set(userId,socket.id);
+    });
+
+    socket.on("send-msg",(data)=>{
+        const sendUserSocket = onlineUsers.get(data.to);
+        if(sendUserSocket){
+            socket.to(sendUserSocket).emit("msg-recieve",data.message);
+        }
+    })
+});
