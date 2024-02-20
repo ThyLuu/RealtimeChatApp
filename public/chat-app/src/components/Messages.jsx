@@ -3,7 +3,5 @@ import PropTypes from 'prop-types';
 import styled from "styled-components";
 
 export default function Messages() {
-    return <Container>Messages</Container>
+    return <div className='h-3/4'>Messages</div>
 }
-
-const Container = styled.div `height:80%;`;

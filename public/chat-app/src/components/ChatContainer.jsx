@@ -1,6 +1,7 @@
 import React,{useState, useEffect, useRef} from 'react'
 import LogOut from './LogOut'
 import ChatInput from './Chatinput';
+import Messages from './Messages'
 import axios from 'axios';
 import {v4 as uuidv4} from "uuid";
 import { getAllMessagesRoute, sendMessageRoute } from '../utils/APIRoutes';
@@ -85,12 +86,12 @@ export default function ChatContainer({currentChat,currentUser,socket}) {
         <LogOut/>
         </div>
 
-        { <div className='chat-messages flex gap-x-10 overflow-auto flex-col p-10'>
+        {/* { <div className='chat-messages flex gap-x-10 overflow-auto flex-col p-10'>
             {
                 messages.map((message) => {
                     return(
                         <div ref={scrollRef} key={uuidv4()}>
-                            <div className={`message flex flex-col gap-1 overflow-auto ${message.fromSelf ? "sended justify-items-end" : "recieved"}`}>
+                            <div className={`message flex flex-col gap-1 overflow-auto ${message.fromSelf ? "sended justify-items-end" : "received"}`}>
                                 <div className='content max-5 border-r-2'>
                                     <p>
                                         {message.message}
@@ -103,17 +104,15 @@ export default function ChatContainer({currentChat,currentUser,socket}) {
                 }
              )
             }
-        </div> }
-
-        <ChatInput handleSendMsg={handleSendMsg}></ChatInput>
-        </div>
-
-        )
+        </div> } */}
+        <Messages/>
+        <ChatInput handleSendMsg={handleSendMsg}/>
         
+        </div>
+        )
     }
+        
     </>
-    
-    
   )
 
 }
