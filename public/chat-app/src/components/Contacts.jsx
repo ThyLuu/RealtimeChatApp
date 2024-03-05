@@ -51,7 +51,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
           <div className="contacts flex flex-col items-center overflow-auto gap-3 mt-2 scrollbar-thin">
             <input
               type="text"
-              placeholder="Search contacts"
+              placeholder="Tìm kiếm..."
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
               className="border rounded-md px-2 py-1 w-80"
@@ -63,7 +63,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
                       rounded-md cursor-pointer
                       contact ${
                         index === currentSelected
-                          ? "selected bg-gray-300"
+                          ? "selected bg-gradient-to-r from-slate-400 to-slate-600"
                           : "bg-gradient-to-r from-slate-600 to-slate-800"
                       }`}
                   key={index}
