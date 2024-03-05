@@ -4,6 +4,7 @@ import ChatInput from './Chatinput';
 import Messages from './Messages'
 import axios from 'axios';
 import {v4 as uuidv4} from "uuid";
+import styled from "styled-components";
 import { getAllMessagesRoute, sendMessageRoute } from '../utils/APIRoutes';
 //xử lý tin nhắn
 export default function ChatContainer({currentChat,currentUser,socket}) {
@@ -71,48 +72,124 @@ export default function ChatContainer({currentChat,currentUser,socket}) {
   return (
     <>
     {
-        currentChat && (
-        <div className=''> 
-        <div className='chat-header flex justify-between items-center px-8 bg-gradient-to-r from-slate-600 to-slate-800 py-2 '>
-            <div className='user-details flex items-center gap-4 '>
-                <div className='avatar'>
-                    <img src={`data:image/svg+xml;base64,${currentChat.avatarImage}`} alt="avatar" style={{height:'3rem'}}/>
+    currentChat && (
+    <Container>
+      <div className="chat-header">
+        <div className="user-details">
+          <div className="avatar">
+            <img
+              src={`data:image/svg+xml;base64,${currentChat.avatarImage}`}
+              alt=""
+            />
+          </div>
+          <div className="username">
+            <h3>{currentChat.username}</h3>
+          </div>
+        </div>
+        <LogOut />
+      </div>
+      <div className="chat-messages">
+        {messages.map((message) => {
+          return (
+            <div ref={scrollRef} key={uuidv4()}>
+              <div
+                className={`message ${
+                  message.fromSelf ? "sended" : "received"
+                }`}
+              >
+                <div className="content ">
+                  <p>{message.message}</p>
                 </div>
-                <div className='username'>
-                    <h3 className='text-white'>{currentChat.username}</h3>
-                </div>
+              </div>
             </div>
+          );
+        })}
+      </div>
+      <ChatInput handleSendMsg={handleSendMsg} />
+    </Container>
 
-        <LogOut/>
-        </div>
-
-        {/* { <div className='chat-messages flex gap-x-10 overflow-auto flex-col p-10'>
-            {
-                messages.map((message) => {
-                    return(
-                        <div ref={scrollRef} key={uuidv4()}>
-                            <div className={`message flex flex-col gap-1 overflow-auto ${message.fromSelf ? "sended justify-items-end" : "received"}`}>
-                                <div className='content max-5 border-r-2'>
-                                    <p>
-                                        {message.message}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    )
-                
-                }
-             )
-            }
-        </div> } */}
-        <Messages/>
-        <ChatInput handleSendMsg={handleSendMsg}/>
-        
-        </div>
-        )
+    )
     }
         
     </>
   )
 
 }
+
+const Container = styled.div`
+  display: grid;
+  grid-template-rows: 10% 80% 10%;
+  gap: 0.1rem;
+  overflow: hidden;
+  @media screen and (min-width: 720px) and (max-width: 1080px) {
+    grid-template-rows: 15% 70% 15%;
+  }
+  .chat-header {
+    display: flex;
+    justify-content: space-between;
+    z-index:4;
+    align-items: center;
+    padding: 2.1rem 2rem;
+    background-color: rgb(17 24 39);
+    .user-details {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      .avatar {
+        img {
+          height: 3rem;
+        }
+      }
+      .username {
+        h3 {
+          color: white;
+        }
+      }
+    }
+  }
+  .chat-messages {
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: auto;
+    z-index:1;
+    &::-webkit-scrollbar {
+      width: 0.2rem;
+      &-thumb {
+        background-color: #ffffff39;
+        width: 0.1rem;
+        border-radius: 1rem;
+      }
+    }
+    .message {
+      display: flex;
+      align-items: center;
+      .content {
+        max-width: 40%;
+        overflow-wrap: break-word;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border-radius: 1rem;
+        color: #d1d1d1;
+        @media screen and (min-width: 720px) and (max-width: 1080px) {
+          max-width: 70%;
+        }
+      }
+    }
+    .sended {
+      justify-content: flex-end;
+      .content {
+        background-color: rgb(31 41 55);
+      }
+    }
+    .received {
+      justify-content: flex-start;
+      .content {
+        background-color: rgb(209 213 219);
+        color:black;
+      }
+    }
+  }
+`;
