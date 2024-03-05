@@ -46,7 +46,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
         >
           <div className="flex items-center gap-2 justify-center py-3">
             <img src={Logo} alt="logo" className="h-8" />
-            <h3 className="text-white uppercase">Snappy</h3>
+            <h3 className="text-white uppercase">StormyGram</h3>
           </div>
           <div className="contacts flex flex-col items-center overflow-auto gap-3 mt-2 scrollbar-thin">
             <input
@@ -143,17 +143,12 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
               />
             </div>
 
-<<<<<<< HEAD
                       <div className="username cursor-pointer">
                         <h2 className='text-white'>{currentUserName}</h2>
                       </div>
-=======
-            <div className="username">
-              <h2 className="text-white">{currentUserName}</h2>
->>>>>>> 24585a7dbd2883d514eca3dff19e18aa81848cf8
             </div>
           </div>
-        </div>
+        
       )}
     </>
   );
