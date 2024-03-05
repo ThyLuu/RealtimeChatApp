@@ -74,7 +74,7 @@ export default function ChatContainer({currentChat,currentUser,socket}) {
     {
     currentChat && (
     <Container>
-      <div className="chat-header">
+      <div className="chat-header py-8 px-8">
         <div className="user-details">
           <div className="avatar">
             <img
@@ -129,7 +129,7 @@ const Container = styled.div`
     justify-content: space-between;
     z-index:4;
     align-items: center;
-    padding: 2.1rem 2rem;
+    
     background-color: rgb(17 24 39);
     .user-details {
       display: flex;

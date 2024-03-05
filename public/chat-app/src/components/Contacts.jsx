@@ -44,7 +44,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
             overflow: "hidden",
           }}
         >
-          <div className="flex items-center gap-2 justify-center py-3">
+          <div className="flex items-center gap-2 justify-center py-2">
             <img src={Logo} alt="logo" className="h-8" />
             <h3 className="text-white uppercase">StormyGram</h3>
           </div>
@@ -54,7 +54,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
               placeholder="Tìm kiếm..."
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
-              className="border rounded-md px-2 py-1 w-80"
+              className="border rounded-md mt-2 px-2 py-1 w-11/12 focus:outline-none"
             />
             {filteredContacts.map((contact, index) => {
               return (
@@ -93,43 +93,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
                 </div>
               );
             })}
-            {/* {contacts.map((contact, index) => {
-              return (
-                <div
-                  className={` 
-                      rounded-md cursor-pointer
-                      contact ${
-                        index === currentSelected
-                          ? "selected bg-gray-300"
-                          : "bg-gradient-to-r from-slate-600 to-slate-800"
-                      }`}
-                  key={index}
-                  onClick={() => changeCurrentChat(index, contact)}
-                  style={{
-                    minHeight: "3rem",
-                    width: "90%",
-                    padding: "0.1rem",
-                    gap: "1rem",
-                    alignItems: "center",
-                    display: "flex",
-                  }}
-                >
-                  <div className="avatar">
-                    <img
-                      src={`data:image/svg+xml;base64,${contact.avatarImage}`}
-                      alt="avatar"
-                      style={{
-                        height: "3rem",
-                      }}
-                    />
-                  </div>
-
-                  <div className="username">
-                    <h3 className="text-white">{contact.username}</h3>
-                  </div>
-                </div>
-              );
-            })} */}
+            
           </div>
           <div className="current-user bg-gray-800 flex justify-center items-center gap-8 py-3 ">
             <div className="avatar cursor-pointer ">
