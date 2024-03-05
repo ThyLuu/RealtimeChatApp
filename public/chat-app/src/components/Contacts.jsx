@@ -78,7 +78,7 @@ export default function Contacts ({contacts,currentUser,changeChat}) {
                       }}/>
                       </div>
 
-                      <div className="username">
+                      <div className="username cursor-pointer">
                         <h2 className='text-white'>{currentUserName}</h2>
                       </div>
             </div>

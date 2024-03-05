@@ -58,6 +58,7 @@ export default function ChatInput({handleSendMsg}) {
           height:'100%',
           border:'none',
           paddingLeft:'1rem',
+          paddingTop:'0.2rem',
           fontSize:'30px'        }}/>
       <button type="submit">
         <IoMdSend/>
