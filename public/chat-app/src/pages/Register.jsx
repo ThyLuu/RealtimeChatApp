@@ -115,7 +115,7 @@ function Register() {
                 <form onSubmit={(event) => handleSubmit(event)}>
                     <div className="brand">
                         <img src={Logo} alt="Logo" />
-                        <h1 className='text-white uppercase'>Snappy</h1>
+                        <h1 className='text-white uppercase'>StormyGram</h1>
                     </div>
 
                     <input type="text" placeholder='Tên tài khoản' name='username' onChange={(e) => handleChange(e)} />
