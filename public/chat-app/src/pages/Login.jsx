@@ -99,7 +99,7 @@ function Login() {
         <form onSubmit={(event) => handleSubmit(event)}>
           <div className="brand">
             <img src={Logo} alt="Logo" />
-            <h1>Snappy</h1>
+            <h1>StormyGram</h1>
           </div>
 
           <input type="text" placeholder='Tên tài khoản' name='username' onChange={(e) => handleChange(e)} min="3"/>
