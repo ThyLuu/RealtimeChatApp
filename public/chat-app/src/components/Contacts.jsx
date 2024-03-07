@@ -62,7 +62,7 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
               placeholder="Tìm kiếm..."
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
-              className="border rounded-md mt-2 px-2 py-1 w-11/12 focus:outline-none"
+              className="border rounded-md mt-2 px-2  w-11/12 focus:outline-none py-2"
             />
             {filteredContacts.map((contact, index) => {
               return (
