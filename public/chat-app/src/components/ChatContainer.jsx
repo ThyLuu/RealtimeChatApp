@@ -74,7 +74,7 @@ export default function ChatContainer({currentChat,currentUser,socket}) {
     {
     currentChat && (
     <Container>
-      <div className="chat-header py-8 px-8">
+      <div className="chat-header py-9 px-8">
         <div className="user-details">
           <div className="avatar">
             <img

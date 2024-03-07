@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Logo from "../assets/logo.svg";
 
+
 export default function Contacts({ contacts, currentUser, changeChat }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
 
@@ -9,6 +10,10 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
   const [currentSelected, setCurrentSelected] = useState(undefined);
 
   const [searchKeyword, setSearchKeyword] = useState("");
+
+  
+
+  
 
   useEffect(() => {
     if (currentUser) {
@@ -44,11 +49,14 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
             overflow: "hidden",
           }}
         >
-          <div className="flex items-center gap-2 justify-center py-2">
-            <img src={Logo} alt="logo" className="h-8" />
-            <h3 className="text-white uppercase">StormyGram</h3>
+         
+          <div className="flex items-center gap-2 justify-center py-2 ">
+            <img src={Logo} alt="logo" className="h-10" />
+            <h3 className="text-white uppercase mt-2" >StormyGram</h3>
           </div>
-          <div className="contacts flex flex-col items-center overflow-auto gap-3 mt-2 scrollbar-thin">
+        
+         
+          <div className="contacts flex flex-col items-center overflow-auto scrollbar-track-slate-700 gap-3 mt-2">
             <input
               type="text"
               placeholder="Tìm kiếm..."
