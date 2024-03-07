@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Logo from "../assets/logo.svg";
+import { RxHamburgerMenu } from "react-icons/rx";
+import SideBar from "./SideBar";
 
 
 export default function Contacts({ contacts, currentUser, changeChat }) {
@@ -10,9 +12,6 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
   const [currentSelected, setCurrentSelected] = useState(undefined);
 
   const [searchKeyword, setSearchKeyword] = useState("");
-
-  
-
   
 
   useEffect(() => {
@@ -45,25 +44,36 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
           className=" brands bg-gradient-to-r from-slate-600 to-slate-900"
           style={{
             display: "grid",
-            gridTemplateRows: "13% 72% 15%",
+            gridTemplateRows: "13% 10% 62% 15%",
             overflow: "hidden",
           }}
         >
          
-          <div className="flex items-center gap-2 justify-center py-2 ">
-            <img src={Logo} alt="logo" className="h-10" />
-            <h3 className="text-white uppercase mt-2" >StormyGram</h3>
+          <div className="flex items-center px-4 py-2  ">
+              <div className='flex items-center'>
+                <RxHamburgerMenu style={{fontSize:'2rem', color:'white',cursor:'pointer'}}/>
+              </div>
+              <div className='flex items-center justify-center px-8'>
+                <img src={Logo} alt="logo" className="h-10" />
+                <h3 className="text-white uppercase mt-2" >StormyGram</h3>
+              </div>
+             
           </div>
-        
-         
-          <div className="contacts flex flex-col items-center overflow-auto scrollbar-track-slate-700 gap-3 mt-2">
+          
+          <div className='px-4 pb-10 items-center'>
             <input
-              type="text"
-              placeholder="Tìm kiếm..."
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-              className="border rounded-md mt-2 px-2  w-11/12 focus:outline-none py-2"
-            />
+                type="text"
+                placeholder="Tìm kiếm..."
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+                className="border rounded-md mt-2 px-2 focus:outline-none py-2"
+                style={{width:'98%'}}
+              />
+          </div>
+          
+       
+          <div className="contacts flex flex-col items-center overflow-auto gap-3 mt-2">
+            
             {filteredContacts.map((contact, index) => {
               return (
                 <div
@@ -114,10 +124,9 @@ export default function Contacts({ contacts, currentUser, changeChat }) {
                 }}
               />
             </div>
-
-                      <div className="username cursor-pointer">
-                        <h2 className='text-white'>{currentUserName}</h2>
-                      </div>
+            <div className="username cursor-pointer">
+                <h2 className='text-white'>{currentUserName}</h2>
+              </div>
             </div>
           </div>
         
