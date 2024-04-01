@@ -1,17 +1,23 @@
 import React,{useState, useEffect, useRef} from 'react'
 import LogOut from './LogOut'
+import { IoIosSearch } from "react-icons/io";
 import ChatInput from './Chatinput';
 import Messages from './Messages'
 import axios from 'axios';
 import {v4 as uuidv4} from "uuid";
 import styled from "styled-components";
 import { getAllMessagesRoute, sendMessageRoute } from '../utils/APIRoutes';
+import Tooltip from '@mui/material/Tooltip';
+
+
 //xử lý tin nhắn
 export default function ChatContainer({currentChat,currentUser,socket}) {
 
     const [messages, setMessages] = useState([]);
     const [arrivalMessage,setArrivalMessage] = useState(null)
     const scrollRef = useRef();
+    const [searchMess, setSearchMess] = useState("");
+    const [showSearch, setShowSearch] = useState(false);
 
     const fetchMessages = async (msg) => {
         console.log(currentChat)
@@ -29,13 +35,7 @@ export default function ChatContainer({currentChat,currentUser,socket}) {
     useEffect(() => {
         fetchMessages();
     }, [currentUser,currentChat]);
-//    useEffect(async() => {
-//         const response = await axios.post(getAllMessagesRoute,{
-//             from: currentUser._id,
-//             to: currentChat._id,
-//         });
-//         setMessages(response.data);
-//     },[currentChat]);
+
 
     const handleSendMsg = async (msg) => {
         await axios.post(sendMessageRoute, {
@@ -69,14 +69,30 @@ export default function ChatContainer({currentChat,currentUser,socket}) {
         scrollRef.current?.scrollIntoView({behavior:"smooth"});
     },[messages]);
 
+    //Tính năng tìm kiếm tin nhắn
+    const handleSearchChange = (e) => {
+      setSearchMess(e.target.value);
+  };
+    const filteredMessages = messages.filter(message =>
+      message.message.toLowerCase().includes(searchMess.toLowerCase())
+  );
+  
+    //Hiển thị thanh tìm kiếm tin nhắn 
+    const handleAvatarClick = () => {
+      setShowSearch(!showSearch); 
+  };
+
+
   return (
     <>
     {
     currentChat && (
+      
     <Container>
-      <div className="chat-header py-8 px-8">
+
+      <div className="chat-header py-11 px-8">
         <div className="user-details">
-          <div className="avatar">
+          <div className="avatar" >
             <img
               src={`data:image/svg+xml;base64,${currentChat.avatarImage}`}
               alt=""
@@ -86,24 +102,59 @@ export default function ChatContainer({currentChat,currentUser,socket}) {
             <h3>{currentChat.username}</h3>
           </div>
         </div>
-        <LogOut />
+        {/* <LogOut /> */}
+        <Tooltip title='Tìm kiếm tin nhắn'>
+          <div>
+            <IoIosSearch  onClick={handleAvatarClick} className="cursor-pointer  font-bold size-8 bg-indigo-100 rounded-md" />
+          </div>
+        </Tooltip>
+        
       </div>
+
+      {!showSearch && <div className="space"></div>}
+
+      {/* Tìm kiếm tin nhắn UI */}
+      {showSearch && (
+        <div className='search-messages px-4 my-6 pb-4  items-center '>
+            <input
+                type="text"
+                value={searchMess}
+                onChange={handleSearchChange}
+                placeholder="Tìm kiếm tin nhắn..."
+                className=" rounded-md my-2 px-3  mx-4 focus:outline-none py-2  bg-slate-400 text-black  placeholder:text-gray-600 "
+                style={{width:'96%'}}
+              />
+      </div>
+      )}
+
+      {/* Tin nhắn UI */}
       <div className="chat-messages">
-        {messages.map((message) => {
+        {filteredMessages.map((message) => {
           return (
-            <div ref={scrollRef} key={uuidv4()}>
-              <div
-                className={`message ${
-                  message.fromSelf ? "sended" : "received"
-                }`}
-              >
-                <div className="content ">
-                  <p>{message.message}</p>
-                </div>
+            <div className={`message ${message.fromSelf ? 'sended' : 'received'}`}>
+              <div className="content">
+                <p>
+                  {message.message
+                    .split(new RegExp(`(${searchMess})`, 'gi'))
+                    // gi 
+                    // g là một ký tự đặc biệt cho biết cần tìm tất cả các kết quả khớp thay vì dừng lại sau khi tìm thấy một kết quả.
+                    // i là một ký tự đặc biệt cho biết không phân biệt chữ hoa chữ thường khi tìm kiếm.
+                    .map((keyword, index) =>
+                      keyword.toLowerCase() === searchMess.toLowerCase() ? (
+                        <span key={index} className="bg-yellow-600">
+                          {keyword}
+                        </span>
+                      ) : (
+                        keyword
+                      )
+                    )}
+                </p>
               </div>
-            </div>
+      </div>
           );
         })}
+
+        
       </div>
       <ChatInput handleSendMsg={handleSendMsg} />
     </Container>
@@ -118,7 +169,7 @@ export default function ChatContainer({currentChat,currentUser,socket}) {
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 10% 80% 10%;
+  grid-template-rows: 10% 5% 75% 10%;
   gap: 0.1rem;
   overflow: hidden;
   @media screen and (min-width: 720px) and (max-width: 1080px) {
@@ -146,6 +197,9 @@ const Container = styled.div`
         }
       }
     }
+  }
+  .search-messages{
+    z-index:2;
   }
   .chat-messages {
     padding: 1rem 2rem;
@@ -191,5 +245,6 @@ const Container = styled.div`
         color:black;
       }
     }
+    
   }
 `;
