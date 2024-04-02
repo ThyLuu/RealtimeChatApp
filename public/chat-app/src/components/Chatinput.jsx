@@ -44,12 +44,12 @@ export default function ChatInput({handleSendMsg}) {
   <div className="container items-center bg-slate-300" 
     style={{
       display:'grid',
-      gridTemplateColumns:'5% 95%',
+      gridTemplateColumns:'10% 90%',
     }}>
 
     <div className="button-container  items-center text-white">
-      <div className='emoji relative cursor-pointer px-2 text-slate-900'>
-        <BsEmojiSmileFill onClick={handleEmojiPickerhideShow}/>
+      <div className='emoji relative cursor-pointer px-8 text-slate-900'>
+        <BsEmojiSmileFill style={{fontSize:'30px'}} onClick={handleEmojiPickerhideShow}/>
         {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} 
           style={{
            position: 'absolute',
@@ -71,7 +71,7 @@ export default function ChatInput({handleSendMsg}) {
     </div>
 
     <form className="input-container flex items-center gap-6 bg-slate-300" onSubmit={(event) => sendChat(event)}>
-      <input type='text' placeholder="Nhập tin nhắn..." className="text-black focus:outline-none"   
+      <input type='text' placeholder="Nhập tin nhắn..." className="text-black focus:outline-none rounded-lg"   
       onChange={(e) => setMsg(e.target.value)}
       value={msg}
         style={{
@@ -81,8 +81,8 @@ export default function ChatInput({handleSendMsg}) {
           paddingLeft:'1rem',
           paddingTop:'0.2rem',
           fontSize:'30px'        }}/>
-      <button type="submit">
-        <IoMdSend/>
+      <button type="submit" className="px-1">
+        <IoMdSend style={{fontSize:'30px'}}/>
       </button>
     </form>
  

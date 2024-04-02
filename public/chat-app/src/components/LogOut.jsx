@@ -14,7 +14,7 @@ export default function LogOut() {
 
     return (
         <button className='flex justify-center items-center p-1 cursor-pointer bg-indigo-100 rounded-md' onClick={handleClick}>
-             <MdLogout/>
+             <MdLogout style={{fontSize:'25px'}}/>
         </button>
        
   )
