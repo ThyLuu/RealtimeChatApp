@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import { BsEmojiSmileFill } from "react-icons/bs";
-import { IoMdSend } from "react-icons/io";
+import { IoMdSend} from "react-icons/io";
+import { FaFileImage } from "react-icons/fa";
 import styled from "styled-components";
 import Picker from "emoji-picker-react";
 
 
 export default function ChatInput({handleSendMsg}) {
   const [msg, setMsg] = useState("");
+  const fileInputRef = useRef(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const handleEmojiPickerhideShow = () => {
     setShowEmojiPicker(!showEmojiPicker);
@@ -17,7 +19,18 @@ export default function ChatInput({handleSendMsg}) {
     setMsg(message);
     //console.log(emojiObject);
   }
-
+  //tải hình ảnh từ thiết bị
+  const handleImageSelect = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setMsg((prevMsg) => prevMsg + `<img src="${e.target.result}" />`);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
   const sendChat = (event) => {
     event.preventDefault();
     if(msg.length>0){
@@ -46,6 +59,14 @@ export default function ChatInput({handleSendMsg}) {
            boxShadow: '0 5px 10px rgb(226 232 240)',
            borderColor: 'rgb(226 232 240)',
         }} />}
+        <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageSelect}
+            style={{ display: "none" }}
+            ref={fileInputRef}
+          />
+          <button onClick={() => fileInputRef.current.click()}><FaFileImage /></button>
       </div>
     </div>
 

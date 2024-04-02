@@ -37,21 +37,46 @@ export default function ChatContainer({currentChat,currentUser,socket}) {
     }, [currentUser,currentChat]);
 
 
-    const handleSendMsg = async (msg) => {
-        await axios.post(sendMessageRoute, {
-            from: currentUser._id,
-            to: currentChat._id,
-            message: msg,
-          });
-          socket.current.emit("send-msg",{
-            to: currentChat._id,
-            from:currentUser._id,
-            message:msg,
-          });
-          const msgs = [...messages];
-          msgs.push({fromSelf: true,message:msg});
-          setMessages(msgs);
-    } ;
+const handleSendMsg = async (msg) => {
+  if (msg.startsWith("<img")) {
+    // Tin nhắn là hình ảnh, gửi tin nhắn qua socket và cập nhật state
+    socket.current.emit("send-msg", {
+      to: currentChat._id,
+      from: currentUser._id,
+      message: msg
+    });
+ // Tin nhắn là hình ảnh, gọi API lưu tin nhắn và sau đó gửi tin nhắn qua socket
+    await axios.post(sendMessageRoute, {
+      from: currentUser._id,
+      to: currentChat._id,
+      message: msg,
+    });
+    const newMessage = { fromSelf: true, message: msg };
+    setMessages(prevMessages => [...prevMessages, newMessage]);
+  } else {
+    try {
+      // Tin nhắn là văn bản, gọi API lưu tin nhắn và sau đó gửi tin nhắn qua socket
+      await axios.post(sendMessageRoute, {
+        from: currentUser._id,
+        to: currentChat._id,
+        message: msg,
+      });
+
+      socket.current.emit("send-msg", {
+        to: currentChat._id,
+        from: currentUser._id,
+        message: msg,
+      });
+
+      const newMessage = { fromSelf: true, message: msg };
+      setMessages(prevMessages => [...prevMessages, newMessage]);
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  }
+};
+
+
 
     useEffect (()=>{
         if(socket.current){
@@ -129,6 +154,24 @@ export default function ChatContainer({currentChat,currentUser,socket}) {
 
       {/* Tin nhắn UI */}
       <div className="chat-messages">
+
+        {messages.map((message, index) => {
+          const isImage = message.message.startsWith("<img");
+          return (
+            <div ref={index === messages.length - 1 ? scrollRef : null} key={uuidv4()}>
+            <div className={`message ${message.fromSelf ? "sended" : "received"}`}>
+              <div className="content">
+                {isImage ? (
+                  <img src={message.message.match(/src="([^"]+)"/)[1]} alt="Sent Image" />
+                ) : (
+                  <p>{message.message}</p>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
         {filteredMessages.map((message) => {
           return (
             <div className={`message ${message.fromSelf ? 'sended' : 'received'}`}>
@@ -155,6 +198,7 @@ export default function ChatContainer({currentChat,currentUser,socket}) {
         })}
 
         
+
       </div>
       <ChatInput handleSendMsg={handleSendMsg} />
     </Container>
