@@ -40,25 +40,31 @@ mongoose.connect(process.env.MONGO_URL, {
 const server = app.listen(process.env.PORT, ()=> {
     console.log(`Server started on PORT : ${process.env.PORT}`)
 })
-
+//Khởi tạo socket.io server
 const io = socket(server,{
     cors:{
         origin:"http://localhost:3000",
         credentials:true,// Cho phép gửi cookie cùng với yêu cầu
     },
 });
-
+// tạo kết nối giữa client và server
 global.onlineUsers =new Map();
 io.on("connection",(socket) =>{
     global.chatSocket = socket;
     socket.on("add-user",(userId)=>{
         onlineUsers.set(userId,socket.id);
     });
-
+//soket nhận tin nhắn từ máy khách
     socket.on("send-msg",(data)=>{
         const sendUserSocket = onlineUsers.get(data.to);
         if(sendUserSocket){
             socket.to(sendUserSocket).emit("msg-recieve",data.message);
+        }
+    })
+    socket.on("send-img",(data)=>{
+        const sendUserSocket = onlineUsers.get(data.to);
+        if(sendUserSocket){
+            socket.to(sendUserSocket).emit("img-recieve",data.message);
         }
     })
 });
